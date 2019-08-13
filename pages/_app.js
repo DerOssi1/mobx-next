@@ -2,7 +2,9 @@ import App, { Container } from 'next/app'
 import React from 'react'
 import { initializeStore } from '../stores'
 import { Provider } from 'mobx-react'
+import { appWithTranslation } from '@/i18n'
 
+@appWithTranslation
 class MyMobxApp extends App {
   static async getInitialProps(appContext) {
     // Get or Create the store with `undefined` as initialState

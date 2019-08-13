@@ -4,6 +4,7 @@ let timer
 
 export default class User {
   @observable name = 'test'
+  @observable token = 'test'
   @observable age = 1
   @observable lastUpdate = Date.now()
   @observable light = false
@@ -41,6 +42,11 @@ export default class User {
   @action
   addAge = (number) => {
     this.age += 1
+  }
+
+  @action
+  setToken = (token) => {
+    this.token = token
   }
 
   

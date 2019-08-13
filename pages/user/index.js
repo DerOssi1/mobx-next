@@ -1,7 +1,9 @@
 import React from 'react'
+import { withAuthSync } from '@/utils/auth'
 
-export default () => {
+export default withAuthSync(() => {
   return (
     <div>user</div>
   )
 }
+)

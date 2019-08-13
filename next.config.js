@@ -13,6 +13,10 @@ module.exports = withLess({
     localIdentName: process.env.NODE_ENV === 'production'? "[hash:base64:5]" : "[name]__[local]___[hash:base64:5]",
   },
   webpack: function (config) {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': `${__dirname}`,
+    }
     return config;
   }
 });

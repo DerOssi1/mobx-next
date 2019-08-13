@@ -7,12 +7,16 @@
     "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "babel-plugin-react-css-modules": "^5.2.6",
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
+    "js-cookie": "^2.2.1",
     "mobx": "^4.13.0",
     "mobx-react": "^6.1.1",
     "next": "^9.0.3",
+    "next-cookies": "^1.1.2",
+    "next-i18next": "^0.54.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
