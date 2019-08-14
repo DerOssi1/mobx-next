@@ -9,7 +9,7 @@ export default class User {
   @observable light = false
 
   hydrate(initStore) {
-    initStore && Object.keys(initStore).map(key => this[key] = initStore[key])
+    initStore && Object.keys(initStore).forEach(key => this[key] = initStore[key])
   }
 
   start = () => {

@@ -22,7 +22,7 @@ class MyMobxApp extends App {
 
   // Hydrate serialized state to store
   static getDerivedStateFromProps(props, state) {
-    Object.keys(state.store).map(key => state.store[key].hydrate(props.initialStoreState[key]))
+    Object.keys(state.store).forEach(key => state.store[key].hydrate(props.initialStoreState[key]))
     return state
   }
 

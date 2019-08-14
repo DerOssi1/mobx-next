@@ -11,7 +11,7 @@ let store = {
   app: new App(),
 }
 
-Object.keys(store).map(key => store[key].getParent = () => store)
+Object.keys(store).forEach(key => store[key].getParent = () => store)
 
 export default store 
 
