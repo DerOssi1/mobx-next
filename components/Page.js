@@ -22,6 +22,7 @@ class Page extends React.Component {
     const { user: { addAge, lastUpdate, start } } = this.store
     addAge()
     start()
+    
   }
 
   render() {

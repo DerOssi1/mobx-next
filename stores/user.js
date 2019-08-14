@@ -8,12 +8,8 @@ export default class User {
   @observable lastUpdate = Date.now()
   @observable light = false
 
-  constructor(isServer, { getParent, user }) {
-    this.getParent = getParent
-    if(user){
-      this.token = user.token
-      this.lastUpdate = user.lastUpdate
-    }
+  hydrate(initStore) {
+    initStore && Object.keys(initStore).map(key => this[key] = initStore[key])
   }
 
   start = () => {
@@ -42,7 +38,5 @@ export default class User {
   addAge = (number) => {
     this.age += 1
   }
-
-  
 
 }
