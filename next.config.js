@@ -17,6 +17,27 @@ module.exports = withLess({
       ...config.resolve.alias,
       '@': `${__dirname}`,
     }
+    config.module.rules = [
+      ...config.module.rules,
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name(file) {
+                  if (process.env.NODE_ENV === 'production') {
+                    return '[contenthash].[ext]';
+                  }
+                  return '[path][name].[ext]';
+                },
+                publicPath: "/_next/static/images",
+                outputPath: "static/images/",
+              },
+            }
+        ]
+      }
+    ]
     return config;
   }
 });
