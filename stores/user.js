@@ -9,12 +9,8 @@ export default class User {
   @observable lastUpdate = Date.now()
   @observable light = false
 
-  constructor(isServer, { getParent, user }) {
-    this.getParent = getParent
-    if(user){
-      this.token = user.token
-      this.lastUpdate = user.lastUpdate
-    }
+  hydrate(initStore) {
+    initStore && Object.keys(initStore).forEach(key => this[key] = initStore[key])
   }
 
   start = () => {

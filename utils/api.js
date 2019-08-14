@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { initializeStore } from '@/stores'
+import store from '@/stores'
 import * as auth from '@/utils/auth'
 
 const isServer = typeof window === 'undefined'
@@ -13,7 +13,6 @@ export const api = axios.create({
 api.interceptors.request.use( config => {
   // console.log(config)
   // // Do something before request is sent
-  const store = initializeStore()
   config.headers['Authorization'] = `Bearer ${store.user.token}`
   return config
 }, error => {
@@ -42,5 +41,3 @@ api.interceptors.response.use( response => {
 })
 
 export default api
-
-export const login = data => api.post(`/api/login`, data)

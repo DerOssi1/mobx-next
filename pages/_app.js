@@ -1,40 +1,38 @@
 import App, { Container } from 'next/app'
 import React from 'react'
-import { initializeStore } from '../stores'
+import store, { fetchInitialStoreState } from '@/stores'
 import { Provider } from 'mobx-react'
 import { appWithTranslation } from '@/i18n'
 
 @appWithTranslation
 class MyMobxApp extends App {
-  static async getInitialProps(appContext) {
-    // Get or Create the store with `undefined` as initialState
-    // This allows you to set a custom default initialState
-    const store = initializeStore()
-    // Provide the store to getInitialProps of pages
-    // store.user.name = 'xxx'
-    
-    appContext.ctx.store = store
+  state = {
+    store: store,
+  }
 
-    let appProps = await App.getInitialProps(appContext)
+  // Fetching serialized(JSON) store state
+  static async getInitialProps(appContext) {
+    // store.user.name = 'xxx'
+    // appContext.ctx.store = store
+    const appProps = await App.getInitialProps(appContext)
+    const initialStoreState = await fetchInitialStoreState()
     return {
       ...appProps,
-      initialState: store,
+      initialStoreState,
     }
   }
 
-  constructor(props) {
-    super(props)
-    const isServer = typeof window === 'undefined'
-    this.store = isServer
-      ? props.initialState
-      : initializeStore(props.initialState)
+  // Hydrate serialized state to store
+  static getDerivedStateFromProps(props, state) {
+    Object.keys(state.store).forEach(key => state.store[key].hydrate(props.initialStoreState[key]))
+    return state
   }
 
   render() {
     const { Component, pageProps } = this.props
     return (
       <Container>
-        <Provider store={this.store}>
+        <Provider store={this.state.store}>
           <Component {...pageProps} />
         </Provider>
       </Container>

@@ -3,10 +3,8 @@ import { action, decorate, observable, runInAction } from 'mobx';
 export default class App {
   @observable name = 'test'
 
-  constructor(isServer, { getParent, app }) {
-    this.getParent = getParent
-    if(app){
-    }
+  hydrate(initStore) {
+    initStore && Object.keys(initStore).forEach(key => this[key] = initStore[key])
   }
 
 }

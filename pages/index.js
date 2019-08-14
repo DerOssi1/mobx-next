@@ -1,6 +1,7 @@
 import React from 'react'
 import { i18n, Link, withTranslation } from '@/i18n'
 import Page from '../components/Page'
+import * as user from '@/apis/user'
 
 @withTranslation('common')
 export default class Counter extends React.Component {
@@ -11,6 +12,7 @@ export default class Counter extends React.Component {
   }
 
   onSwitch = () => {
+    // user.login()
     i18n.changeLanguage(i18n.language === 'en' ? 'zh' : 'en')
   }
 
