@@ -2,9 +2,10 @@ import { Component } from 'react'
 import Router from 'next/router'
 import nextCookie from 'next-cookies'
 import cookie from 'js-cookie'
-import store from '@/stores'
+import { initializeStore } from '@/stores'
 
 export const login = async ({ token }) => {
+  const store = initializeStore()
   store.user.setToken(token)
   cookie.set('token', token, { expires: 1 })
   Router.push('/')
@@ -12,6 +13,7 @@ export const login = async ({ token }) => {
 
 export const logout = () => {
   cookie.remove('token')
+  const store = initializeStore()
   store.user.setToken('')
   // to support logging out from all windows
   window.localStorage.setItem('logout', Date.now())

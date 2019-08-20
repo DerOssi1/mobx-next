@@ -6,21 +6,25 @@ import User from './user'
 const isServer = typeof window === 'undefined'
 useStaticRendering(isServer)
 
-let store = {
-  user: new User(),
-  app: new App(),
-}
+let store = null
 
-Object.keys(store).forEach(key => store[key].getParent = () => store)
-
-export default store 
-
-export async function fetchInitialStoreState() {
-  // You can do anything to fetch initial store state
+function initStore(){
   return {
-    user: {
-      lastUpdate: Date.now()
-    }
+    user: new User(),
+    app: new App(),
   }
 }
 
+
+export function initializeStore(initialData = {}) {
+  // Always make a new store if server, otherwise state is shared between requests
+  if (isServer) {
+    store = initStore()
+  }
+  if (store === null) {
+    store = initStore()
+    Object.keys(store).forEach(key => store[key].hydrate(initialData[key]))
+  }
+  Object.keys(store).forEach(key => store[key].getParent = () => store)
+  return store
+}

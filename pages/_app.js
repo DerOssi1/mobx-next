@@ -1,38 +1,37 @@
 import App, { Container } from 'next/app'
 import React from 'react'
-import store, { fetchInitialStoreState } from '@/stores'
+import { initializeStore } from '@/stores'
 import { Provider } from 'mobx-react'
 import { appWithTranslation } from '@/i18n'
 
 @appWithTranslation
 class MyMobxApp extends App {
-  state = {
-    store: store,
-  }
-
-  // Fetching serialized(JSON) store state
   static async getInitialProps(appContext) {
-    // store.user.name = 'xxx'
-    // appContext.ctx.store = store
+    const { token } = nextCookie(appContext.ctx)
+    const store = initializeStore()
+    // store.user.info.isLogin = !!token
+
+    appContext.ctx.store = store
     const appProps = await App.getInitialProps(appContext)
-    const initialStoreState = await fetchInitialStoreState()
     return {
       ...appProps,
-      initialStoreState,
+      initialState: store,
     }
   }
 
-  // Hydrate serialized state to store
-  static getDerivedStateFromProps(props, state) {
-    Object.keys(state.store).forEach(key => state.store[key].hydrate(props.initialStoreState[key]))
-    return state
+  constructor(props) {
+    super(props)
+    const isServer = typeof window === 'undefined'
+    this.store = isServer
+      ? props.initialState
+      : initializeStore(props.initialState)
   }
 
   render() {
     const { Component, pageProps } = this.props
     return (
       <Container>
-        <Provider store={this.state.store}>
+        <Provider store={this.store}>
           <Component {...pageProps} />
         </Provider>
       </Container>
