@@ -1,6 +1,7 @@
 import App, { Container } from 'next/app'
 import React from 'react'
 import { initializeStore } from '@/stores'
+import nextCookie from 'next-cookies'
 import { Provider } from 'mobx-react'
 import { appWithTranslation } from '@/i18n'
 
