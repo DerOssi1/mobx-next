@@ -8,20 +8,22 @@ useStaticRendering(isServer)
 
 let store = null
 
+function initStore(){
+  return {
+    user: new User(),
+    app: new App(),
+  }
+}
+
 export function initializeStore(initialData = {}) {
   // Always make a new store if server, otherwise state is shared between requests
-  initialData.getParent = () => store
   if (isServer) {
-    store = {
-      user: new User(isServer, initialData),
-      app: new App(isServer, initialData),
-    }
+    store = initStore()
   }
   if (store === null) {
-    store = {
-      user: new User(isServer, initialData),
-      app: new App(isServer, initialData),
-    }
+    store = initStore()
+    Object.keys(store).forEach(key => store[key].hydrate(initialData[key]))
   }
+  Object.keys(store).forEach(key => store[key].getParent = () => store)
   return store
 }
