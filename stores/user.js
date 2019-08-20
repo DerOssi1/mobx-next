@@ -8,6 +8,9 @@ export default class User {
   @observable lastUpdate = Date.now()
   @observable light = false
 
+  constructor() {
+  }
+
   hydrate(initStore) {
     initStore && Object.keys(initStore).forEach(key => this[key] = initStore[key])
   }
@@ -38,5 +41,7 @@ export default class User {
   addAge = (number) => {
     this.age += 1
   }
+
+  
 
 }

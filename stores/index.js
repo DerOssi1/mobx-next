@@ -27,4 +27,3 @@ export function initializeStore(initialData = {}) {
   Object.keys(store).forEach(key => store[key].getParent = () => store)
   return store
 }
-
